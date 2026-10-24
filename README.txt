@@ -1,35 +1,48 @@
-Destination Architect
-Version 1.0.0
+=== Destination Architect ===
+Contributors: emmyshingiro
+Tags: tourism, destination, travel, safari, tours
+Requires at least: 6.4
+Tested up to: 6.8
+Requires PHP: 7.4
+Stable tag: 1.0.1
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Create destination pages from WordPress admin without editing HTML.
-By Emmy Shingiro for Isange Digital.
-Author: https://unsplash.com/@eshingiro
-Organization: https://isangedigital.com/
+Create stylish destination pages with editable hero images, tours, attractions and category-based blog posts.
 
-INSTALLATION
-1. In WordPress, open Plugins > Add New Plugin > Upload Plugin.
-2. Upload destination-architect.zip and activate it.
+== Description ==
+
+Destination Architect creates reusable destination pages from WordPress admin without editing HTML. Each page uses a responsive safari design and editable content fields.
+
+Features include:
+
+* Hero titles, introductions and image slides.
+* Destination overview text and highlights.
+* Tour cards with name, image, description, duration and link.
+* Experience and attraction cards with expandable details.
+* A blog section showing up to six recent posts from selected categories.
+* Selectable Rwanda Safaris, Uganda Safaris, Tanzania Safaris and Kenya Safaris categories.
+
+Selected blog categories must exist on the WordPress site where the plugin is installed.
+
+== Installation ==
+
+1. Upload the plugin ZIP through Plugins > Add New Plugin > Upload Plugin.
+2. Activate Destination Architect.
 3. Open Destinations > Add New Destination.
-4. Enter a destination name, add the page content, then publish.
+4. Enter the destination content and publish.
+5. If destination URLs return 404, visit Settings > Permalinks and click Save Changes.
 
-BRANDING ASSETS
-- assets/icon-128x128.png is the plugin icon.
-- assets/banner-772x250.png is the plugin cover/banner.
-- The 256x256 icon and 1544x500 banner are high-resolution variants.
+== Branding ==
 
-CONTENT FIELDS
-- Hero title, introduction, label and image slides
-- Destination overview and quick highlights
-- Tour cards with name, image, short description, duration and link
-- Experience / attraction cards with image, short description and expandable details
-- Blog categories: Rwanda Safaris, Uganda Safaris, Tanzania Safaris and Kenya Safaris
+The plugin icon and banner artwork are included in the plugin's `assets` directory.
 
-The blog section displays up to six recent published WordPress posts from the selected
-categories. The four category slugs match Rwanda Safaris, Uganda Safaris, Tanzania
-Safaris, and Kenya Safaris on wildtrekafrica.com. The categories must exist on the
-WordPress site where the plugin is installed; unavailable categories are disabled in
-the editor. The category archive links point to the selected category's archive.
+== Changelog ==
 
-Destination pages use the bundled layout based on the supplied destination.html design.
-The custom post type is available under Destinations and uses /destinations/ URLs.
-If those URLs return 404 after activation, visit Settings > Permalinks and click Save.
+= 1.0.1 =
+* Add plugin licensing and WordPress readme metadata.
+* Align translation text domain with the plugin slug.
+* Sanitize destination metadata and version enqueued assets.
+
+= 1.0.0 =
+* Initial release.

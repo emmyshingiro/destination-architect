@@ -2,12 +2,14 @@
 /**
  * Plugin Name: Destination Architect
  * Description: Create reusable tourism destination pages with safari, attraction, and blog layouts.
- * Version: 1.0.0
+ * Version: 1.0.1
+ * License: GPL-2.0-or-later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Author: Emmy Shingiro
  * Author URI: https://unsplash.com/@eshingiro
  * Organization: Isange Digital
  * Organization URI: https://isangedigital.com/
- * Text Domain: destination-architect
+ * Text Domain: destination-architect-main
  */
 
 if (!defined('ABSPATH')) {
@@ -18,6 +20,7 @@ final class WTA_Destination_Builder {
     const POST_TYPE = 'wta_destination';
     const NONCE_ACTION = 'wta_save_destination';
     const NONCE_NAME = 'wta_destination_nonce';
+    const VERSION = '1.0.1';
 
     private static $instance;
 
@@ -42,16 +45,16 @@ final class WTA_Destination_Builder {
     public function register_post_type() {
         register_post_type(self::POST_TYPE, array(
             'labels' => array(
-                'name' => __('Destinations', 'destination-architect'),
-                'singular_name' => __('Destination', 'destination-architect'),
-                'add_new' => __('Add New Destination', 'destination-architect'),
-                'add_new_item' => __('Add New Destination', 'destination-architect'),
-                'edit_item' => __('Edit Destination', 'destination-architect'),
-                'new_item' => __('New Destination', 'destination-architect'),
-                'view_item' => __('View Destination', 'destination-architect'),
-                'search_items' => __('Search Destinations', 'destination-architect'),
-                'not_found' => __('No destinations found.', 'destination-architect'),
-                'menu_name' => __('Destinations', 'destination-architect'),
+                'name' => __('Destinations', 'destination-architect-main'),
+                'singular_name' => __('Destination', 'destination-architect-main'),
+                'add_new' => __('Add New Destination', 'destination-architect-main'),
+                'add_new_item' => __('Add New Destination', 'destination-architect-main'),
+                'edit_item' => __('Edit Destination', 'destination-architect-main'),
+                'new_item' => __('New Destination', 'destination-architect-main'),
+                'view_item' => __('View Destination', 'destination-architect-main'),
+                'search_items' => __('Search Destinations', 'destination-architect-main'),
+                'not_found' => __('No destinations found.', 'destination-architect-main'),
+                'menu_name' => __('Destinations', 'destination-architect-main'),
             ),
             'public' => true,
             'show_in_rest' => true,
@@ -65,7 +68,7 @@ final class WTA_Destination_Builder {
     public function add_meta_boxes() {
         add_meta_box(
             'wta-destination-details',
-            __('Destination Page Content', 'destination-architect'),
+            __('Destination Page Content', 'destination-architect-main'),
             array($this, 'render_meta_box'),
             self::POST_TYPE,
             'normal',
@@ -84,14 +87,14 @@ final class WTA_Destination_Builder {
             'wta-destination-admin',
             plugin_dir_url(__FILE__) . 'assets/admin.js',
             array('jquery'),
-            '1.0.0',
+            self::VERSION,
             true
         );
         wp_enqueue_style(
             'wta-destination-admin',
             plugin_dir_url(__FILE__) . 'assets/admin.css',
             array(),
-            '1.0.0'
+            self::VERSION
         );
     }
 
@@ -104,19 +107,19 @@ final class WTA_Destination_Builder {
             'wta-destination-fonts',
             'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap',
             array(),
-            null
+            self::VERSION
         );
         wp_enqueue_style(
             'wta-destination',
             plugin_dir_url(__FILE__) . 'assets/frontend.css',
             array('wta-destination-fonts'),
-            '1.0.0'
+            self::VERSION
         );
         wp_enqueue_script(
             'wta-destination',
             plugin_dir_url(__FILE__) . 'assets/frontend.js',
             array(),
-            '1.0.0',
+            self::VERSION,
             true
         );
     }
@@ -126,45 +129,45 @@ final class WTA_Destination_Builder {
         $data = $this->get_destination_data($post->ID);
         ?>
         <div class="wta-admin">
-            <p class="description"><?php esc_html_e('Add the content for this destination. Use the image picker to choose images from your Media Library.', 'destination-architect'); ?></p>
-            <h2><?php esc_html_e('Hero', 'destination-architect'); ?></h2>
-            <?php $this->text_field('hero_label', __('Small hero label', 'destination-architect'), $data['hero_label']); ?>
-            <?php $this->text_field('hero_title', __('Hero title', 'destination-architect'), $data['hero_title'], __('Leave empty to use “Explore the Beauty of [Destination]”.', 'destination-architect')); ?>
-            <?php $this->textarea_field('hero_intro', __('Hero introduction', 'destination-architect'), $data['hero_intro']); ?>
-            <?php $this->repeater('hero_slides', __('Hero images', 'destination-architect'), $data['hero_slides'], array(
-                'image' => __('Image', 'destination-architect'),
-                'alt' => __('Image description (alt text)', 'destination-architect'),
+            <p class="description"><?php esc_html_e('Add the content for this destination. Use the image picker to choose images from your Media Library.', 'destination-architect-main'); ?></p>
+            <h2><?php esc_html_e('Hero', 'destination-architect-main'); ?></h2>
+            <?php $this->text_field('hero_label', __('Small hero label', 'destination-architect-main'), $data['hero_label']); ?>
+            <?php $this->text_field('hero_title', __('Hero title', 'destination-architect-main'), $data['hero_title'], __('Leave empty to use “Explore the Beauty of [Destination]”.', 'destination-architect-main')); ?>
+            <?php $this->textarea_field('hero_intro', __('Hero introduction', 'destination-architect-main'), $data['hero_intro']); ?>
+            <?php $this->repeater('hero_slides', __('Hero images', 'destination-architect-main'), $data['hero_slides'], array(
+                'image' => __('Image', 'destination-architect-main'),
+                'alt' => __('Image description (alt text)', 'destination-architect-main'),
             ), 'image'); ?>
 
-            <h2><?php esc_html_e('Destination Overview', 'destination-architect'); ?></h2>
-            <?php $this->text_field('overview_label', __('Small heading label', 'destination-architect'), $data['overview_label']); ?>
-            <?php $this->text_field('overview_title', __('Overview heading', 'destination-architect'), $data['overview_title']); ?>
-            <?php $this->textarea_field('overview_text', __('Overview text', 'destination-architect'), $data['overview_text'], __('Basic paragraph and link HTML is allowed.', 'destination-architect'), 8); ?>
-            <?php $this->text_field('highlights', __('Highlights (separate with commas)', 'destination-architect'), implode(', ', $data['highlights'])); ?>
+            <h2><?php esc_html_e('Destination Overview', 'destination-architect-main'); ?></h2>
+            <?php $this->text_field('overview_label', __('Small heading label', 'destination-architect-main'), $data['overview_label']); ?>
+            <?php $this->text_field('overview_title', __('Overview heading', 'destination-architect-main'), $data['overview_title']); ?>
+            <?php $this->textarea_field('overview_text', __('Overview text', 'destination-architect-main'), $data['overview_text'], __('Basic paragraph and link HTML is allowed.', 'destination-architect-main'), 8); ?>
+            <?php $this->text_field('highlights', __('Highlights (separate with commas)', 'destination-architect-main'), implode(', ', $data['highlights'])); ?>
 
-            <h2><?php esc_html_e('Tours', 'destination-architect'); ?></h2>
-            <?php $this->text_field('tours_title', __('Tours section heading', 'destination-architect'), $data['tours_title']); ?>
-            <?php $this->textarea_field('tours_intro', __('Tours section introduction', 'destination-architect'), $data['tours_intro']); ?>
-            <?php $this->repeater('tours', __('Tour cards', 'destination-architect'), $data['tours'], array(
-                'title' => __('Tour name', 'destination-architect'),
-                'image' => __('Image', 'destination-architect'),
-                'description' => __('Short description', 'destination-architect'),
-                'duration' => __('Duration', 'destination-architect'),
-                'url' => __('Tour link', 'destination-architect'),
+            <h2><?php esc_html_e('Tours', 'destination-architect-main'); ?></h2>
+            <?php $this->text_field('tours_title', __('Tours section heading', 'destination-architect-main'), $data['tours_title']); ?>
+            <?php $this->textarea_field('tours_intro', __('Tours section introduction', 'destination-architect-main'), $data['tours_intro']); ?>
+            <?php $this->repeater('tours', __('Tour cards', 'destination-architect-main'), $data['tours'], array(
+                'title' => __('Tour name', 'destination-architect-main'),
+                'image' => __('Image', 'destination-architect-main'),
+                'description' => __('Short description', 'destination-architect-main'),
+                'duration' => __('Duration', 'destination-architect-main'),
+                'url' => __('Tour link', 'destination-architect-main'),
             ), 'title'); ?>
 
-            <h2><?php esc_html_e('Experiences & Attractions', 'destination-architect'); ?></h2>
-            <?php $this->text_field('attractions_title', __('Section heading', 'destination-architect'), $data['attractions_title']); ?>
-            <?php $this->textarea_field('attractions_intro', __('Section introduction', 'destination-architect'), $data['attractions_intro']); ?>
-            <?php $this->repeater('attractions', __('Experience / attraction cards', 'destination-architect'), $data['attractions'], array(
-                'title' => __('Name', 'destination-architect'),
-                'image' => __('Image', 'destination-architect'),
-                'description' => __('Short description', 'destination-architect'),
-                'details' => __('More details (optional)', 'destination-architect'),
+            <h2><?php esc_html_e('Experiences & Attractions', 'destination-architect-main'); ?></h2>
+            <?php $this->text_field('attractions_title', __('Section heading', 'destination-architect-main'), $data['attractions_title']); ?>
+            <?php $this->textarea_field('attractions_intro', __('Section introduction', 'destination-architect-main'), $data['attractions_intro']); ?>
+            <?php $this->repeater('attractions', __('Experience / attraction cards', 'destination-architect-main'), $data['attractions'], array(
+                'title' => __('Name', 'destination-architect-main'),
+                'image' => __('Image', 'destination-architect-main'),
+                'description' => __('Short description', 'destination-architect-main'),
+                'details' => __('More details (optional)', 'destination-architect-main'),
             ), 'title'); ?>
 
-            <h2><?php esc_html_e('Destination Blog', 'destination-architect'); ?></h2>
-            <p><?php esc_html_e('Select one or more existing post categories. The latest six published posts from those categories will appear on this page.', 'destination-architect'); ?></p>
+            <h2><?php esc_html_e('Destination Blog', 'destination-architect-main'); ?></h2>
+            <p><?php esc_html_e('Select one or more existing post categories. The latest six published posts from those categories will appear on this page.', 'destination-architect-main'); ?></p>
             <?php $this->render_category_checkboxes($data['blog_categories']); ?>
         </div>
         <?php
@@ -199,7 +202,7 @@ final class WTA_Destination_Builder {
                     <?php $this->repeater_item($key, $index, $item, $fields, $title_key); ?>
                 <?php endforeach; ?>
             </div>
-            <button type="button" class="button wta-add-item"><?php esc_html_e('Add item', 'destination-architect'); ?></button>
+            <button type="button" class="button wta-add-item"><?php esc_html_e('Add item', 'destination-architect-main'); ?></button>
             <script type="text/html" class="wta-repeater-template"><?php
                 $this->repeater_item($key, '__INDEX__', array(), $fields, $title_key);
             ?></script>
@@ -211,13 +214,13 @@ final class WTA_Destination_Builder {
         $item = is_array($item) ? $item : array();
         $title = isset($item[$title_key]) ? $item[$title_key] : '';
         if ('image' === $title_key) {
-            $title = __('Hero image', 'destination-architect');
+            $title = __('Hero image', 'destination-architect-main');
         }
         ?>
         <div class="wta-repeater-item">
             <div class="wta-repeater-heading">
-                <strong><?php echo esc_html($title ? $title : __('New item', 'destination-architect')); ?></strong>
-                <button type="button" class="button-link-delete wta-remove-item"><?php esc_html_e('Remove', 'destination-architect'); ?></button>
+                <strong><?php echo esc_html($title ? $title : __('New item', 'destination-architect-main')); ?></strong>
+                <button type="button" class="button-link-delete wta-remove-item"><?php esc_html_e('Remove', 'destination-architect-main'); ?></button>
             </div>
             <?php foreach ($fields as $field => $label) :
                 $value = isset($item[$field]) ? $item[$field] : '';
@@ -231,8 +234,8 @@ final class WTA_Destination_Builder {
                         ?>
                         <input type="hidden" class="wta-image-id" name="<?php echo esc_attr($name); ?>" value="<?php echo esc_attr($image_id); ?>">
                         <span class="wta-image-preview"><?php if ($image_url) : ?><img src="<?php echo esc_url($image_url); ?>" alt=""><?php endif; ?></span>
-                        <button type="button" class="button wta-select-image"><?php esc_html_e('Choose image', 'destination-architect'); ?></button>
-                        <button type="button" class="button wta-clear-image"><?php esc_html_e('Clear', 'destination-architect'); ?></button>
+                        <button type="button" class="button wta-select-image"><?php esc_html_e('Choose image', 'destination-architect-main'); ?></button>
+                        <button type="button" class="button wta-clear-image"><?php esc_html_e('Clear', 'destination-architect-main'); ?></button>
                     <?php elseif (in_array($field, array('description', 'details'), true)) : ?>
                         <textarea name="<?php echo esc_attr($name); ?>" rows="3" class="widefat"><?php echo esc_textarea($value); ?></textarea>
                     <?php else : ?>
@@ -258,7 +261,7 @@ final class WTA_Destination_Builder {
             <label class="wta-category-option">
                 <input type="checkbox" name="wta_meta[blog_categories][]" value="<?php echo esc_attr($slug); ?>" <?php checked(in_array($slug, $selected, true)); ?> <?php disabled(!$term); ?>>
                 <?php echo esc_html($label); ?>
-                <?php if (!$term) : ?><span class="description"><?php esc_html_e('(category not found on this WordPress site)', 'destination-architect'); ?></span><?php endif; ?>
+                <?php if (!$term) : ?><span class="description"><?php esc_html_e('(category not found on this WordPress site)', 'destination-architect-main'); ?></span><?php endif; ?>
             </label>
             <?php
         }
@@ -278,7 +281,7 @@ final class WTA_Destination_Builder {
             return;
         }
 
-        $raw = wp_unslash($_POST['wta_meta']);
+        $raw = map_deep(wp_unslash($_POST['wta_meta']), 'wp_kses_post');
         $text_keys = array('hero_label', 'hero_title', 'overview_label', 'overview_title', 'tours_title', 'attractions_title');
         foreach ($text_keys as $key) {
             $value = isset($raw[$key]) && is_scalar($raw[$key]) ? sanitize_text_field((string) $raw[$key]) : '';
@@ -386,6 +389,18 @@ final class WTA_Destination_Builder {
     private function render_destination($post_id) {
         $data = $this->get_destination_data($post_id);
         $destination = get_the_title($post_id);
+        /* translators: %s: Destination name. */
+        $discover_label = sprintf(__('Discover %s', 'destination-architect-main'), $destination);
+        /* translators: %s: Destination name. */
+        $default_hero_title = sprintf(__('Explore the Beauty of %s', 'destination-architect-main'), $destination);
+        /* translators: %s: Destination name. */
+        $default_overview_title = sprintf(__('A remarkable destination for %s', 'destination-architect-main'), $destination);
+        /* translators: %s: Destination name. */
+        $default_tours_title = sprintf(__('%s Safaris & Tours', 'destination-architect-main'), $destination);
+        /* translators: %s: Destination name. */
+        $default_attractions_title = sprintf(__('Experiences & Things to Do in %s', 'destination-architect-main'), $destination);
+        /* translators: %s: Destination name. */
+        $default_blog_title = sprintf(__('%s Safari Blog', 'destination-architect-main'), $destination);
         $slides = $this->valid_items($data['hero_slides'], array('image'));
         $tours = $this->valid_items($data['tours'], array('title'));
         $attractions = $this->valid_items($data['attractions'], array('title'));
@@ -396,7 +411,7 @@ final class WTA_Destination_Builder {
         ?>
         <div class="wra-page">
             <?php if ($slides) : ?>
-                <section class="wra-hero" aria-label="<?php echo esc_attr(sprintf(__('Discover %s', 'destination-architect'), $destination)); ?>">
+                <section class="wra-hero" aria-label="<?php echo esc_attr($discover_label); ?>">
                     <?php foreach ($slides as $index => $slide) :
                         $image = wp_get_attachment_image_url(absint($slide['image']), 'full');
                         if (!$image) {
@@ -408,18 +423,18 @@ final class WTA_Destination_Builder {
                         </div>
                     <?php endforeach; ?>
                     <div class="wra-hero-content">
-                        <span class="wra-hero-label"><?php echo esc_html($data['hero_label'] ? $data['hero_label'] : sprintf(__('Discover %s', 'destination-architect'), $destination)); ?></span>
-                        <h1><?php echo $data['hero_title'] ? esc_html($data['hero_title']) : esc_html(sprintf(__('Explore the Beauty of %s', 'destination-architect'), $destination)); ?></h1>
+                        <span class="wra-hero-label"><?php echo esc_html($data['hero_label'] ? $data['hero_label'] : $discover_label); ?></span>
+                        <h1><?php echo $data['hero_title'] ? esc_html($data['hero_title']) : esc_html($default_hero_title); ?></h1>
                         <?php if ($data['hero_intro']) : ?><p><?php echo esc_html($data['hero_intro']); ?></p><?php endif; ?>
                         <div class="wra-hero-actions">
-                            <?php if ($tours) : ?><a href="#wra-destination-tours" class="wra-btn wra-btn-light"><?php esc_html_e('Explore Safaris', 'destination-architect'); ?> <span aria-hidden="true">→</span></a><?php endif; ?>
-                            <?php if ($attractions) : ?><a href="#wra-destination-attractions" class="wra-btn wra-btn-outline"><?php esc_html_e('Discover Experiences', 'destination-architect'); ?></a><?php endif; ?>
+                            <?php if ($tours) : ?><a href="#wra-destination-tours" class="wra-btn wra-btn-light"><?php esc_html_e('Explore Safaris', 'destination-architect-main'); ?> <span aria-hidden="true">→</span></a><?php endif; ?>
+                            <?php if ($attractions) : ?><a href="#wra-destination-attractions" class="wra-btn wra-btn-outline"><?php esc_html_e('Discover Experiences', 'destination-architect-main'); ?></a><?php endif; ?>
                         </div>
                     </div>
                     <div class="wra-hero-controls">
-                        <button class="wra-hero-arrow wra-prev" type="button" aria-label="<?php esc_attr_e('Previous slide', 'destination-architect'); ?>">←</button>
-                        <button class="wra-hero-arrow wra-next" type="button" aria-label="<?php esc_attr_e('Next slide', 'destination-architect'); ?>">→</button>
-                        <div class="wra-hero-dots" aria-label="<?php esc_attr_e('Choose a slide', 'destination-architect'); ?>"></div>
+                        <button class="wra-hero-arrow wra-prev" type="button" aria-label="<?php esc_attr_e('Previous slide', 'destination-architect-main'); ?>">←</button>
+                        <button class="wra-hero-arrow wra-next" type="button" aria-label="<?php esc_attr_e('Next slide', 'destination-architect-main'); ?>">→</button>
+                        <div class="wra-hero-dots" aria-label="<?php esc_attr_e('Choose a slide', 'destination-architect-main'); ?>"></div>
                     </div>
                 </section>
             <?php endif; ?>
@@ -430,7 +445,7 @@ final class WTA_Destination_Builder {
                         <div class="wra-overview-grid">
                             <div class="wra-overview-side">
                                 <?php if ($data['overview_label']) : ?><span class="wra-eyebrow"><?php echo esc_html($data['overview_label']); ?></span><?php endif; ?>
-                                <h2 class="wra-heading"><?php echo esc_html($data['overview_title'] ? $data['overview_title'] : sprintf(__('A remarkable destination for %s', 'destination-architect'), $destination)); ?></h2>
+                                <h2 class="wra-heading"><?php echo esc_html($data['overview_title'] ? $data['overview_title'] : $default_overview_title); ?></h2>
                             </div>
                             <div class="wra-overview-copy">
                                 <?php echo wp_kses_post(wpautop($data['overview_text'])); ?>
@@ -449,8 +464,8 @@ final class WTA_Destination_Builder {
                 <section class="wra-tours" id="wra-destination-tours">
                     <div class="wra-container">
                         <div class="wra-section-top">
-                            <span class="wra-eyebrow"><?php esc_html_e('Find your next adventure', 'destination-architect'); ?></span>
-                            <h2 class="wra-heading"><?php echo esc_html($data['tours_title'] ? $data['tours_title'] : sprintf(__('%s Safaris & Tours', 'destination-architect'), $destination)); ?></h2>
+                            <span class="wra-eyebrow"><?php esc_html_e('Find your next adventure', 'destination-architect-main'); ?></span>
+                            <h2 class="wra-heading"><?php echo esc_html($data['tours_title'] ? $data['tours_title'] : $default_tours_title); ?></h2>
                             <?php if ($data['tours_intro']) : ?><p class="wra-intro"><?php echo esc_html($data['tours_intro']); ?></p><?php endif; ?>
                         </div>
                         <div class="wra-tour-grid">
@@ -462,8 +477,8 @@ final class WTA_Destination_Builder {
                                         <h3><?php echo esc_html($tour['title']); ?></h3>
                                         <?php if ($tour['description']) : ?><p><?php echo esc_html($tour['description']); ?></p><?php endif; ?>
                                         <div class="wra-tour-footer">
-                                            <?php if ($tour['duration']) : ?><span class="wra-tour-price"><?php esc_html_e('Duration', 'destination-architect'); ?><strong><?php echo esc_html($tour['duration']); ?></strong></span><?php endif; ?>
-                                            <?php if (!empty($tour['url'])) : ?><a href="<?php echo esc_url($tour['url']); ?>" class="wra-tour-link"><?php esc_html_e('Explore Tour', 'destination-architect'); ?> <span aria-hidden="true">→</span></a><?php endif; ?>
+                                            <?php if ($tour['duration']) : ?><span class="wra-tour-price"><?php esc_html_e('Duration', 'destination-architect-main'); ?><strong><?php echo esc_html($tour['duration']); ?></strong></span><?php endif; ?>
+                                            <?php if (!empty($tour['url'])) : ?><a href="<?php echo esc_url($tour['url']); ?>" class="wra-tour-link"><?php esc_html_e('Explore Tour', 'destination-architect-main'); ?> <span aria-hidden="true">→</span></a><?php endif; ?>
                                         </div>
                                     </div>
                                 </article>
@@ -477,8 +492,8 @@ final class WTA_Destination_Builder {
                 <section class="wra-attractions" id="wra-destination-attractions">
                     <div class="wra-container">
                         <div class="wra-section-top">
-                            <span class="wra-eyebrow"><?php esc_html_e('Explore the destination', 'destination-architect'); ?></span>
-                            <h2 class="wra-heading"><?php echo esc_html($data['attractions_title'] ? $data['attractions_title'] : sprintf(__('Experiences & Things to Do in %s', 'destination-architect'), $destination)); ?></h2>
+                            <span class="wra-eyebrow"><?php esc_html_e('Explore the destination', 'destination-architect-main'); ?></span>
+                            <h2 class="wra-heading"><?php echo esc_html($data['attractions_title'] ? $data['attractions_title'] : $default_attractions_title); ?></h2>
                             <?php if ($data['attractions_intro']) : ?><p class="wra-intro"><?php echo esc_html($data['attractions_intro']); ?></p><?php endif; ?>
                         </div>
                         <div class="wra-attraction-grid">
@@ -490,7 +505,7 @@ final class WTA_Destination_Builder {
                                         <?php if ($attraction['description']) : ?><p><?php echo esc_html($attraction['description']); ?></p><?php endif; ?>
                                         <?php if (!empty($attraction['details'])) : ?>
                                             <div class="wra-attraction-more"><div class="wra-attraction-more-inner"><p><?php echo esc_html($attraction['details']); ?></p></div></div>
-                                            <button class="wra-attraction-toggle" type="button" aria-expanded="false"><?php esc_html_e('Discover attraction', 'destination-architect'); ?> <span aria-hidden="true">+</span></button>
+                                            <button class="wra-attraction-toggle" type="button" aria-expanded="false"><?php esc_html_e('Discover attraction', 'destination-architect-main'); ?> <span aria-hidden="true">+</span></button>
                                         <?php endif; ?>
                                     </div>
                                 </article>
@@ -558,11 +573,11 @@ final class WTA_Destination_Builder {
             <div class="wra-container">
                 <div class="wra-blog-header">
                     <div>
-                        <span class="wra-eyebrow"><?php esc_html_e('Travel inspiration', 'destination-architect'); ?></span>
-                        <h2 class="wra-heading"><?php echo esc_html($heading ? $heading . ' Blog' : sprintf(__('%s Safari Blog', 'destination-architect'), $destination)); ?></h2>
-                        <p class="wra-intro"><?php esc_html_e('Discover travel guides, safari inspiration, destination highlights and helpful tips.', 'destination-architect'); ?></p>
+                        <span class="wra-eyebrow"><?php esc_html_e('Travel inspiration', 'destination-architect-main'); ?></span>
+                        <h2 class="wra-heading"><?php echo esc_html($heading ? $heading . ' Blog' : $default_blog_title); ?></h2>
+                        <p class="wra-intro"><?php esc_html_e('Discover travel guides, safari inspiration, destination highlights and helpful tips.', 'destination-architect-main'); ?></p>
                     </div>
-                    <a href="<?php echo esc_url($first_link); ?>" class="wra-btn"><?php esc_html_e('View All Articles', 'destination-architect'); ?> <span aria-hidden="true">→</span></a>
+                    <a href="<?php echo esc_url($first_link); ?>" class="wra-btn"><?php esc_html_e('View All Articles', 'destination-architect-main'); ?> <span aria-hidden="true">→</span></a>
                 </div>
                 <div class="wra-blog-grid">
                     <?php if ($query->have_posts()) : while ($query->have_posts()) : $query->the_post(); ?>
@@ -576,11 +591,11 @@ final class WTA_Destination_Builder {
                                 <div class="wra-blog-date"><?php echo esc_html(get_the_date()); ?></div>
                                 <h3><?php echo esc_html(get_the_title()); ?></h3>
                                 <p><?php echo esc_html(wp_trim_words(get_the_excerpt(), 28)); ?></p>
-                                <a class="wra-blog-link" href="<?php echo esc_url(get_permalink()); ?>"><?php esc_html_e('Read Article', 'destination-architect'); ?> <span aria-hidden="true">→</span></a>
+                                <a class="wra-blog-link" href="<?php echo esc_url(get_permalink()); ?>"><?php esc_html_e('Read Article', 'destination-architect-main'); ?> <span aria-hidden="true">→</span></a>
                             </div>
                         </article>
                     <?php endwhile; wp_reset_postdata(); else : ?>
-                        <div class="wra-blog-status"><?php esc_html_e('No articles were found in the selected categories yet.', 'destination-architect'); ?> <a href="<?php echo esc_url($first_link); ?>"><?php esc_html_e('Browse the category', 'destination-architect'); ?> →</a></div>
+                        <div class="wra-blog-status"><?php esc_html_e('No articles were found in the selected categories yet.', 'destination-architect-main'); ?> <a href="<?php echo esc_url($first_link); ?>"><?php esc_html_e('Browse the category', 'destination-architect-main'); ?> →</a></div>
                     <?php endif; ?>
                 </div>
             </div>
