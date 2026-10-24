@@ -1,0 +1,60 @@
+.wta-admin > h2 {
+    margin: 28px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #dcdcde;
+}
+
+.wta-admin > h2:first-of-type {
+    margin-top: 18px;
+}
+
+.wta-field {
+    margin: 12px 0;
+}
+
+.wta-field label {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.wta-field .description {
+    display: block;
+    margin-top: 5px;
+}
+
+.wta-repeater {
+    margin: 18px 0;
+}
+
+.wta-repeater > h3 {
+    margin: 14px 0 8px;
+}
+
+.wta-repeater-item {
+    max-width: 900px;
+    margin: 0 0 12px;
+    padding: 12px 16px;
+    border: 1px solid #c3c4c7;
+    background: #fff;
+}
+
+.wta-repeater-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f0f0f1;
+}
+
+.wta-image-preview img {
+    display: block;
+    width: auto;
+    max-width: 180px;
+    max-height: 110px;
+    margin: 8px 0;
+}
+
+.wta-category-option {
+    display: block;
+    margin: 10px 0;
+}
